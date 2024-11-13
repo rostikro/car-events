@@ -3,4 +3,4 @@ services:
 - name: app
   github:
     branch: main
-    repo: digitalocean/sample-nodejs
+    repo: https://github.com/rostikro/car-events
