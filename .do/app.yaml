@@ -1,6 +1,9 @@
-name: app
+name: sample
+
 services:
-- name: app
-  github:
-    branch: main
-    repo: https://github.com/rostikro/car-events
+- name: sample
+ image:
+   registry_type: GHCR
+   registry: rostikro
+   repository: car-events
+   digest: ${SAMPLE_DIGEST}
