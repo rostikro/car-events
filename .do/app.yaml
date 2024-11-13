@@ -1,0 +1,6 @@
+name: app
+services:
+- name: app
+  github:
+    branch: main
+    repo: digitalocean/sample-nodejs
