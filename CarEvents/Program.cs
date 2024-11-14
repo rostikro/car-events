@@ -1,7 +1,16 @@
+using CarEvents.Models;
+using CarEvents.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<DBContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(DBContext))));
+
+builder.Services.AddScoped<ImageUploadService>();
 
 var app = builder.Build();
 
