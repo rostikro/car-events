@@ -31,6 +31,11 @@
       <_ContentIncludedByDefault Remove="Views\Car\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Car\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Car\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Event\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Event\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Event\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Event\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
