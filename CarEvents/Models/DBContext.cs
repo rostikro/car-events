@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarEvents.Models;
 
-public partial class DBContext : DbContext
+public partial class DBContext : IdentityDbContext<User>
 {
     public DBContext(DbContextOptions<DBContext> options)
         : base(options)
@@ -21,16 +22,12 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<EventPhoto> EventPhotos { get; set; }
 
-    public virtual DbSet<FeatureFlag> FeatureFlags { get; set; }
-
-    public virtual DbSet<FeatureUser> FeatureUsers { get; set; }
-
     public virtual DbSet<Registration> Registrations { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<Car>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("cars_pkey");
@@ -132,37 +129,6 @@ public partial class DBContext : DbContext
                 .HasConstraintName("event_photos_event_id_fkey");
         });
 
-        modelBuilder.Entity<FeatureFlag>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("feature_flags_pkey");
-
-            entity.ToTable("feature_flags");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.FeatureName)
-                .HasMaxLength(255)
-                .HasColumnName("feature_name");
-        });
-
-        modelBuilder.Entity<FeatureUser>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("feature_users_pkey");
-
-            entity.ToTable("feature_users");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.FeatureId).HasColumnName("feature_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Feature).WithMany(p => p.FeatureUsers)
-                .HasForeignKey(d => d.FeatureId)
-                .HasConstraintName("feature_users_feature_id_fkey");
-
-            entity.HasOne(d => d.User).WithMany(p => p.FeatureUsers)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("feature_users_user_id_fkey");
-        });
-
         modelBuilder.Entity<Registration>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("registrations_pkey");
@@ -183,30 +149,6 @@ public partial class DBContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Registrations)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("registrations_user_id_fkey");
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("users_pkey");
-
-            entity.ToTable("users");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_date");
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .HasColumnName("email");
-            entity.Property(e => e.FullName)
-                .HasMaxLength(255)
-                .HasColumnName("full_name");
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(255)
-                .HasColumnName("password_hash");
-            entity.Property(e => e.Username)
-                .HasMaxLength(100)
-                .HasColumnName("username");
         });
 
         OnModelCreatingPartial(modelBuilder);

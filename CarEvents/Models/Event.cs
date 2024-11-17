@@ -17,7 +17,7 @@ public partial class Event
 
     public DateTime? EndDate { get; set; }
 
-    public int OrganizerId { get; set; }
+    public string OrganizerId { get; set; }
 
     public DateTime CreatedDate { get; set; }
 
